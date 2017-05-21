@@ -32,10 +32,18 @@ remote_file node['poolse']['remote_bin'] do
   action :create
 end
 
-# puts "******************** #{local_binpath} #{config_path} & ********************"
+
+yum_package 'screen' do
+  action :install
+end
 
 execute 'poolse' do
-  command "#{local_binpath} #{config_path} &"
+  command "chmod +x #{local_binpath}"
+  action :run
+end
+
+execute 'starting poolse' do
+  command "screen -S test -d -m #{local_binpath} #{config_path}"
   action :run
 end
 
