@@ -1,0 +1,25 @@
+{
+    "state": {
+        "startup_state": <%= @startup_state %>,
+        "persist_state": <%= @persist_state %>
+    },
+    "targets": [
+        {
+            <% @targets.each do |target| %>
+            "endpoint": "<%= target.endpoint %>",
+            "polling_interval": <%= target.polling_interval %>,
+            "expected_status_code": <%= target.expected_status_code %>,
+            "up_count_threshold": <%= target.up_count_threshold %>,
+            "down_count_threshold": <%= target.down_count_threshold %>
+    <% end %>
+
+            
+        }
+    ],
+    "service": {
+        "http_port": "<%= @http_port %>",
+        "debug": <%= @debug %>,
+        "show_http_log":  <%= @show_http_log %>,
+		"state_file_name": "<%= @state_file_name %>"
+    }
+}

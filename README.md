@@ -1,7 +1,5 @@
-# gohealthcheck
+# poolse
 
-Installs Poolse, a healthcheck broker proxy for reverse proxies!  It's proxies all the way down!
+Installs Poolse, a healthcheck for http endpoints.
 
-Poolse readme can be found here: https://github.com/vacoj/poolse/blob/master/README.md
-
-# poolse-cookbook
+Poolse readme can be found here: https://github.com/vacoj/poolse
