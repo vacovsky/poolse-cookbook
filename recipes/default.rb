@@ -3,13 +3,41 @@
 # Recipe:: default
 #
 # Copyright (c) 2017 Joe Vacovsky Jr., All Rights Reserved.
+include_recipe 'yum-epel'
 
-config_path = ::File.join(node['poolse']['install_loc'], 'config.json')
-local_binpath = ::File.join(node['poolse']['install_loc'], node['poolse']['remote_bin'].split('/').last)
+deps = %w(
+  psmisc
+  screen
+  npm
+  git
+)
+
+deps.each do |d|
+  yum_package d do
+    action :install
+  end
+end
+npm_package 'bower'
+
+config_path = ::File.join(node['poolse']['install_loc'], '/poolse/config.json')
+local_binpath = ::File.join(node['poolse']['install_loc'], '/poolse/src/poolse/', node['poolse']['remote_bin'])
+repo_binpath = ::File.join(node['poolse']['install_loc'], '/poolse/bin/', node['poolse']['remote_bin'])
+
+execute 'killing running poolse instance' do
+  command "killall #{node['poolse']['remote_bin']}; killall poolse;"
+  ignore_failure true
+  action :run
+end
 
 directory node['poolse']['install_loc'] do
   action :create
   recursive true
+end
+
+execute 'clone poolse repo' do
+  command "cd #{node['poolse']['install_loc']}; git clone #{node['poolse']['repo']}"
+  action :run
+  not_if { ::Dir.exist?(::File.join(node['poolse']['install_loc'], 'poolse')) }
 end
 
 template config_path do
@@ -25,16 +53,14 @@ template config_path do
   )
 end
 
-puts node['poolse']['remote_bin'].split('/').last
-remote_file node['poolse']['remote_bin'] do
-  source node['poolse']['remote_bin']
-  path ::File.join(node['poolse']['install_loc'], node['poolse']['remote_bin'].split('/').last)
-  action :create
+execute 'copy poolse bin into place' do
+  command "cp #{repo_binpath} #{local_binpath}"
+  action :run
 end
 
-
-yum_package 'screen' do
-  action :install
+execute 'installing bower components' do
+  command "cd #{::File.join(node['poolse']['install_loc'], '/poolse/src/poolse/', 'static')}; bower install --allow-root"
+  action :run
 end
 
 execute 'poolse' do
@@ -43,36 +69,6 @@ execute 'poolse' do
 end
 
 execute 'starting poolse' do
-  command "screen -S test -d -m #{local_binpath} #{config_path}"
+  command "cd #{::File.join(node['poolse']['install_loc'], '/poolse/src/poolse/')}; screen -S poolse -d -m #{local_binpath} #{config_path}"
   action :run
 end
-
-
-# # Allow Poolse
-# firewall 'poolse'
-# firewall_rule 'Poolse port enable' do
-#   firewall_name 'poolse'
-#   protocol  :tcp
-#   port      node['poolse']['settings']['http_port'].to_i
-#   command   :allow
-#   action    :create
-# end
-
-# include_recipe 'poolse::dock'
-
-# case node['platform']
-# when 'centos', 'redhat', 'fedora'
-#   service_name 'redhat_name'
-# when 'windows'
-#   nssm 'poolse' do
-#     program 'c:\\poolse\\poolse.exe'
-#     args 'c:\\poolse\\config.json'
-#     action :install
-#     end
-# else
-#   puts 'unsupported platform'
-# end
-
-# end
-
-# #

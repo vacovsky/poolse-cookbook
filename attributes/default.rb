@@ -1,6 +1,6 @@
 default['poolse']['targets'] = [
   {
-    endpoint: "http://poolse.vacovsky.us:5704/",
+    endpoint: 'http://poolse.vacovsky.us/',
     polling_interval: 10,
     expected_status_code: 200,
     up_count_threshold: 5,
@@ -24,13 +24,6 @@ default['poolse']['settings'] = {
   startup_state: true
 }
 
-default['poolse']['remote_bin'] = 'https://github.com/vacoj/poolse/raw/master/bin/poolse_x64'
-default['poolse']['install_loc'] = '/opt/poolse/'
-
-default['sshd']['sshd_config']['Port'] = 2222
-
-# TODO: switch case for platform and architecture
-# if windows
-# default['poolse']['source'] = 'https://github.com/vacoj/poolse/bin/poolse.exe'
-# else
-# default['poolse']['source'] = 'https://github.com/vacoj/poolse/bin/poolse'
+default['poolse']['remote_bin'] = 'poolse_x64'
+default['poolse']['repo'] = 'https://github.com/vacoj/poolse.git'
+default['poolse']['install_loc'] = '/opt/'
