@@ -2,7 +2,10 @@
 driver:
   name: docker
   socket: tcp://localhost:2375
-  # use_sudo: false
+  forward: 
+  - 2222:2222
+  - 5704:5704
+  use_sudo: false
   
 provisioner:
   name: chef_zero
@@ -15,7 +18,7 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu
+  - name: centos
 
 suites:
   - name: default

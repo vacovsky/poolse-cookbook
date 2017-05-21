@@ -1,3 +1,6 @@
+
+# do not use this
+
 # poolse
 
 Installs Poolse, a healthcheck for http endpoints.

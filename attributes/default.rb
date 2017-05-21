@@ -25,7 +25,9 @@ default['poolse']['settings'] = {
 }
 
 default['poolse']['remote_bin'] = 'https://github.com/vacoj/poolse/raw/master/bin/poolse_x64'
-default['poolse']['install_loc'] = '/var/poolse/'
+default['poolse']['install_loc'] = '/opt/poolse/'
+
+default['sshd']['sshd_config']['Port'] = 2222
 
 # TODO: switch case for platform and architecture
 # if windows

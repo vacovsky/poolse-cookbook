@@ -4,12 +4,15 @@
 #
 # Copyright (c) 2017 Joe Vacovsky Jr., All Rights Reserved.
 
+config_path = ::File.join(node['poolse']['install_loc'], 'config.json')
+local_binpath = ::File.join(node['poolse']['install_loc'], node['poolse']['remote_bin'].split('/').last)
+
 directory node['poolse']['install_loc'] do
   action :create
   recursive true
 end
 
-template "#{node['poolse']['install_loc']}/config.json" do
+template config_path do
   source 'config.json.erb'
   variables(
     targets: node['poolse']['targets'],
@@ -29,10 +32,40 @@ remote_file node['poolse']['remote_bin'] do
   action :create
 end
 
+puts "******************** #{local_binpath} #{config_path} & ********************"
+
+execute 'poolse' do
+  command "#{local_binpath} #{config_path} &"
+  action :run
+end
+
+
+
+# Allow Poolse
+firewall 'poolse'
+firewall_rule 'Poolse port enable' do
+  firewall_name 'poolse'
+  protocol  :tcp
+  port      node['poolse']['settings']['http_port'].to_i
+  command   :allow
+  action    :create
+end
+
 include_recipe 'poolse::dock'
 
-# nssm 'poolse' do
-#   program 'c:\\poolse\\poolse.exe'
-#   args 'c:\\poolse\\config.json'
-#   action :install
+# case node['platform']
+# when 'centos', 'redhat', 'fedora'
+#   service_name 'redhat_name'
+# when 'windows'
+#   nssm 'poolse' do
+#     program 'c:\\poolse\\poolse.exe'
+#     args 'c:\\poolse\\config.json'
+#     action :install
+#     end
+# else
+#   puts 'unsupported platform'
 # end
+
+# end
+
+# #

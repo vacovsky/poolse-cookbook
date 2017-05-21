@@ -17,3 +17,5 @@ source_url 'https://github.com/vacoj/poolse-coolbook' if respond_to?(:source_url
 depends 'windows'
 depends 'nssm'
 depends 'docker', '~> 2.0'
+depends 'sshd'
+depends 'firewall'
