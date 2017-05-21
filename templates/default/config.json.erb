@@ -4,17 +4,17 @@
         "persist_state": <%= @persist_state %>
     },
     "targets": [
+        <% counter = @targets.count %>
+        <% @targets.each do |target| %>
         {
-            <% @targets.each do |target| %>
-            "endpoint": "<%= target.endpoint %>",
-            "polling_interval": <%= target.polling_interval %>,
-            "expected_status_code": <%= target.expected_status_code %>,
-            "up_count_threshold": <%= target.up_count_threshold %>,
-            "down_count_threshold": <%= target.down_count_threshold %>
-    <% end %>
-
-            
-        }
+            "endpoint": "<%= target['endpoint'] %>",
+            "polling_interval": <%= target['polling_interval'] %>,
+            "expected_status_code": <%= target['expected_status_code'] %>,
+            "up_count_threshold": <%= target['up_count_threshold'] %>,
+            "down_count_threshold": <%= target['down_count_threshold'] %>
+            <% counter -= 1%>
+        }<% if counter >= 1 %><%= ',' %><% end %>
+        <% end %>
     ],
     "service": {
         "http_port": "<%= @http_port %>",
