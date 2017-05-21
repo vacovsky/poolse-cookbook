@@ -32,7 +32,7 @@ remote_file node['poolse']['remote_bin'] do
   action :create
 end
 
-puts "******************** #{local_binpath} #{config_path} & ********************"
+# puts "******************** #{local_binpath} #{config_path} & ********************"
 
 execute 'poolse' do
   command "#{local_binpath} #{config_path} &"
@@ -40,18 +40,17 @@ execute 'poolse' do
 end
 
 
+# # Allow Poolse
+# firewall 'poolse'
+# firewall_rule 'Poolse port enable' do
+#   firewall_name 'poolse'
+#   protocol  :tcp
+#   port      node['poolse']['settings']['http_port'].to_i
+#   command   :allow
+#   action    :create
+# end
 
-# Allow Poolse
-firewall 'poolse'
-firewall_rule 'Poolse port enable' do
-  firewall_name 'poolse'
-  protocol  :tcp
-  port      node['poolse']['settings']['http_port'].to_i
-  command   :allow
-  action    :create
-end
-
-include_recipe 'poolse::dock'
+# include_recipe 'poolse::dock'
 
 # case node['platform']
 # when 'centos', 'redhat', 'fedora'

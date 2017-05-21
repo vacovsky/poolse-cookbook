@@ -8,10 +8,10 @@
 include_recipe 'sshd'
 
 # Allow SSH
-firewall_rule 'ssh special port enable' do
-  firewall_name 'poolse'
-  protocol  :tcp
-  port      node['sshd']['sshd_config']['Port']
-  command   :allow
-  action    :create
-end
+# firewall_rule 'ssh special port enable' do
+#   firewall_name 'poolse'
+#   protocol  :tcp
+#   port      node['sshd']['sshd_config']['Port']
+#   command   :allow
+#   action    :create
+# end
