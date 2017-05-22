@@ -23,7 +23,7 @@ config_path = ::File.join(node['poolse']['install_loc'], '/poolse/config.json')
 local_binpath = ::File.join(node['poolse']['install_loc'], '/poolse/src/poolse/', node['poolse']['remote_bin'])
 repo_binpath = ::File.join(node['poolse']['install_loc'], '/poolse/bin/', node['poolse']['remote_bin'])
 
-execute 'killing running poolse instance' do
+execute "killing running #{node['poolse']['remote_bin']} instance" do
   command "killall #{node['poolse']['remote_bin']};"
   ignore_failure true
   action :run
