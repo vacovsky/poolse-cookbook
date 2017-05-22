@@ -1,9 +1,9 @@
 
 # poolse cookbook
 
-### Installs <a href="https://github.com/vacoj/poolse">Poolse</a> (https://github.com/vacoj/poolse), a healthcheck hashboard for http endpoints.
+### Installs <a href="https://github.com/vacoj/poolse">Poolse</a> (https://github.com/vacoj/poolse), a healthcheck dashboard for http endpoints.
 
-After successful run of the cookbook, poolse will be available on the default port of 5704, unless changed in the attributes.rb file.
+After successful run of the cookbook, poolse will be available on the default port of 5704, unless changed in the attributes/default.rb file.
 
 #### Attributes
 
