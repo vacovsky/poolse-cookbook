@@ -3,15 +3,11 @@ driver:
   name: docker
   socket: tcp://localhost:2375
   forward: 
-  - 2222:2222
-  - 5704:5704
+  - 5705:5704
   use_sudo: false
   
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
   always_update_cookbooks: true
 
 verifier:
